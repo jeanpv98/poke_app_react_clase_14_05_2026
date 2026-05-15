@@ -6,11 +6,15 @@ const PokemonList = () => {
     const [pokemones, setPokemones] = useState([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState("")
+    const [searchExp, setSearchExp] = useState("")
 
     const filtrarpokemones = pokemones.filter((pokemon) =>
         pokemon.name
             .toLowerCase()
-            .includes(search.toLowerCase())
+            .includes(search.toLowerCase()) &&
+        pokemon.base_experience
+            .toString()
+            .includes(searchExp)
     )
     useEffect(() => {
         const fechData = async () => {
@@ -40,7 +44,7 @@ const PokemonList = () => {
                 />
                 <input
                     placeholder='Buscar pokemon por base de experiencia ...'
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => setSearchExp(e.target.value)}
                     className=''
                 />
             </div>
