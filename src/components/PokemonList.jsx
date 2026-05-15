@@ -3,9 +3,15 @@ import PokemonCard from "./PokemonCard";
 import { getPokemones } from "../service/pokeApp";
 
 const PokemonList = () => {
-    const[pokemones, setPokemones] = useState([])
+    const [pokemones, setPokemones] = useState([])
     const [loading, setLoading] = useState(true)
+    const [search, setSearch] = useState("")
 
+    const filtrarpokemones = pokemones.filter((pokemon) =>
+        pokemon.name
+            .toLowerCase()
+            .includes(search.toLowerCase())
+    )
     useEffect(() => {
         const fechData = async () => {
             const data = await getPokemones();
@@ -16,25 +22,38 @@ const PokemonList = () => {
         fechData()
     }, [])
 
-    if(loading){
+    if (loading) {
         return (
-            <div>
+            <div className='text-center text-2x1 mt-10'>
                 Cargando pokemones...
-            </div>    
+            </div>
         )
     }
 
-    return(
-        <div>
-            {
-            pokemones.map((pokemon) => (
-                <PokemonCard key = {pokemon.id} pokemon= {pokemon}/>
-            ))
-            }
+    return (
+        <div className="grid grid-cols-2 gap-4">
+            <div>
+                <input
+                    placeholder='Buscar pokemon por nombre ...'
+                    onChange={(e) => setSearch(e.target.value)}
+                    className=''
+                />
+                <input
+                    placeholder='Buscar pokemon por base de experiencia ...'
+                    onChange={(e) => setSearch(e.target.value)}
+                    className=''
+                />
+            </div>
+            <div>
+                {filtrarpokemones.map((pokemon) => (
+                    <PokemonCard key={pokemon.id} pokemon={pokemon} />
+                ))
+                }
+            </div>
         </div>
     )
 
-    
+
 }
 
 export default PokemonList;
