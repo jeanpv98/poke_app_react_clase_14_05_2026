@@ -4,15 +4,17 @@ export const getPokemones = async () => {
 
     try {
         const response = await fetch (API_URL);
-        const data = response.json();
+        const data = await response.json();
 
         const pokemonDetails = Promise.all(
             data.results.map(async (pokemon)=>{
-                const res = await pokemon.url 
-                re
+                const res = await fetch(pokemon.url) 
+                return await res.json()
 
             }) 
         )
+
+        return pokemonDetails
     
     }catch(error){
         console.log(error);
